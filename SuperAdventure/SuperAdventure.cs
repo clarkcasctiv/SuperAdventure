@@ -20,10 +20,15 @@ namespace SuperAdventure
         {
             InitializeComponent();
 
-            _player = new Player(10, 10, 20, 0, 1);
+            _player = new Player(10, 10, 20, 0);
             MoveTo(World.LocationByID(World.LOCATION_ID_HOME));
             _player.Inventory.Add(new InventoryItem(World.ItemByID(World.ITEM_ID_RUSTY_SWORD), 1));
 
+            UpdatePlayerStats();
+        }
+
+        private void UpdatePlayerStats()
+        {
             lblHitPoints.Text = _player.CurrentHitPoints.ToString();
             lblGold.Text = _player.Gold.ToString();
             lblExperience.Text = _player.ExperiencePoints.ToString();
@@ -123,11 +128,8 @@ namespace SuperAdventure
                 }
 
                 // Refresh player information and inventory controls
-                lblHitPoints.Text = _player.CurrentHitPoints.ToString();
-                lblGold.Text = _player.Gold.ToString();
-                lblExperience.Text = _player.ExperiencePoints.ToString();
-                lblLevel.Text = _player.Level.ToString();
 
+                UpdatePlayerStats();
                 UpdateInventoryListInUI();
                 UpdateWeaponListInUI();
                 UpdatePotionListInUI();
@@ -347,6 +349,9 @@ namespace SuperAdventure
                 btnUsePotion.Visible = false;
             }
 
+            // Refresh player's stats
+            UpdatePlayerStats();
+
             // Refresh player's inventory list
             UpdateInventoryListInUI();
 
@@ -457,6 +462,12 @@ namespace SuperAdventure
 
                 cboPotions.SelectedIndex = 0;
             }
+        }
+
+        private void rtbMessages_TextChanged(object sender, EventArgs e)
+        {
+            rtbMessages.SelectionStart = rtbMessages.Text.Length;
+            rtbMessages.ScrollToCaret();
         }
     }
 }
